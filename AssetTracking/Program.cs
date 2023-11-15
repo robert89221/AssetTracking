@@ -1,31 +1,36 @@
-﻿// Asset tracking
-
+﻿
 using AssetTracking;
-using System.Diagnostics;
-using System.Reflection;
 
+
+//  skapa lista med tillgångar
 
 var assets = new List<Asset>();
 PopulateInventory();
 
 
-Console.WriteLine("Type        Brand       Model          Office      Date       Price USD        Local price\n");
+//  skriv ut alla tillgångar, sorterade först efter kontor, sen efter inköpsdatum
 
 var query = from Asset item in assets
             orderby item.Location.ToString(), item.PurchaseDate
             select item;
 
-foreach (var item in query)
-{
-    var days = (item.PurchaseDate + new TimeSpan(3 * 365,0,0,0) - DateTime.Today).Days;
+Console.WriteLine("Type        Brand       Model          Office      Date       Price USD        Local price\n");
 
-    if (days < 90)          Console.ForegroundColor = ConsoleColor.Red;
+foreach (var result in query)
+{
+    //  beräkna antalet dagar till EOL (3 år från inköpsdatum) och färgsätt texten
+
+    var days = (result.PurchaseDate + new TimeSpan(3*365, 0, 0, 0) - DateTime.Today).Days;
+
+    if      (days < 90)     Console.ForegroundColor = ConsoleColor.Red;
     else if (days < 180)    Console.ForegroundColor = ConsoleColor.Yellow;
     else                    Console.ForegroundColor = ConsoleColor.Green;
-    
-    Console.WriteLine(item);
+ 
+    Console.WriteLine(result);
 }
 
+
+//  lägg till lite prylar
 
 void PopulateInventory()
 {
