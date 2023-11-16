@@ -1,7 +1,7 @@
 ﻿
 namespace AssetTracking
 {
-    //  klass för att representera en kontorstillgång
+    //  klass för att representera en företagstillgång
 
     internal class Asset
     {
@@ -31,6 +31,8 @@ namespace AssetTracking
 
             (Type, Brand, Model, Location, PurchaseDate, Price) = (t, b, m, o, d, p);
         }
+
+        //  konvertera en Asset till en formatterad sträng
 
         override public string ToString()
         {
